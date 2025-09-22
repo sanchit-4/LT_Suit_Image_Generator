@@ -17,7 +17,7 @@ def generate_image():
     logo_file = request.files.get('logo')
     main_image_file = request.files.get('main_image')
     text_input = request.form.get('text_input')
-    font_size = request.form.get('font_size', 40, type=int)
+    font_size = request.form.get('font_size', 50, type=int)
 
     if not logo_file or not main_image_file or not text_input:
         return "Please provide all inputs.", 400
@@ -30,15 +30,16 @@ def generate_image():
     FINAL_WIDTH = 1200
     PADDING = 50
     
+    # --- FIX IS HERE: Point directly to the bundled font file ---
     try:
-        font = ImageFont.truetype("arial.ttf", size=font_size)
+        # This now loads the font file from your project directory
+        font = ImageFont.truetype("Poppins-Regular.ttf", size=font_size)
     except IOError:
+        # This fallback should now rarely, if ever, be needed
         font = ImageFont.load_default()
 
-    # --- FIX FOR LOGO DISTORTION IS HERE ---
     # Resize logo while preserving aspect ratio
     logo_width = 300
-    # Correctly calculate the new height based on the new width
     logo_ratio = logo_width / float(logo.width)
     logo_height = int(float(logo.height) * float(logo_ratio))
     logo = logo.resize((logo_width, logo_height))
