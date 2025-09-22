@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LT-Suit Image Generator</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --secondary-color: #28a745;
+            --secondary-hover: #218838;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --light-gray: #e9ecef;
+            --border-color: #ced4da;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            padding: 25px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        input[type="number"], textarea {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="number"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            background-color: var(--light-gray);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .file-input-label:hover {
+            background-color: #dde2e7;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-name {
+            margin-left: 10px;
+            font-size: 0.9em;
+            color: #555;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .submit-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .submit-btn:disabled {
+            background-color: #8c96a3;
+            cursor: not-allowed;
+        }
+
+        .loader {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #preview-section {
+            padding: 30px;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+            background-color: #fcfcfc;
+        }
+
+        #preview-section h2 {
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        #preview-image {
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .download-btn:hover {
+            background-color: var(--secondary-hover);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LT-Suit Image Generator </h1>
+        </header>
+
+        <main>
+            <form id="generator-form" action="/generate" method="post" enctype="multipart/form-data">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="logo">1. Upload Logo</label>
+                        <div class="file-input-wrapper">
+                            <label for="logo" class="file-input-label">
+                                📤
+                                <span class="file-name">Choose a file...</span>
+                            </label>
+                            <input type="file" id="logo" name="logo" class="file-input" accept="image/*" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="main_image">2. Upload Main Image</label>
+                        <div class="file-input-wrapper">
+                            <label for="main_image" class="file-input-label">
+                                🖼️
+                                <span class="file-name">Choose a file...</span>
+                            </label>
+                            <input type="file" id="main_image" name="main_image" class="file-input" accept="image/*" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="font_size">3. Adjust Font Size</label>
+                    <input type="number" id="font_size" name="font_size" value="{{ font_size or 50 }}" min="10" max="150" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="text_input">4. Enter Descriptive Text</label>
+                    <textarea id="text_input" name="text_input" rows="4" placeholder="e.g., T - PURE VISCOS BURBERRY&#10;B - PURE VISCOS MUSLIN" required>{{ text_input or '' }}</textarea>
+                </div>
+
+                <div class="full-width">
+                    <button id="submit-button" type="submit" class="submit-btn">
+                        <span id="button-text">Generate Preview</span>
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        {% if image_data %}
+        <section id="preview-section">
+            <h2>Preview</h2>
+            <img id="preview-image" src="data:image/png;base64,{{ image_data }}" alt="Generated Preview">
+            <br>
+            <a href="data:image/png;base64,{{ image_data }}" download="generated_image.png" class="download-btn">Download Image</a>
+        </section>
+        {% endif %}
+    </div>
+
+    <script>
+        // Update file input labels with the chosen filename
+        document.querySelectorAll('.file-input').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const fileName = e.target.files[0] ? e.target.files[0].name : 'Choose a file...';
+                const label = e.target.previousElementSibling.querySelector('.file-name');
+                label.textContent = fileName;
+            });
+        });
+
+        // Show loader on form submission
+        const form = document.getElementById('generator-form');
+        const submitButton = document.getElementById('submit-button');
+        const buttonText = document.getElementById('button-text');
+
+        form.addEventListener('submit', () => {
+            // Disable button
+            submitButton.disabled = true;
+            // Add loader and change text
+            buttonText.innerHTML = '<span class="loader"></span> Generating...';
+        });
+    </script>
+</body>
+</html>
